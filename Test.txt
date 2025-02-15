@@ -1,0 +1,25 @@
+select * from worker
+order by first_name asc;
+
+SELECT * FROM worker
+ORDER BY first_name ASC, department DESC;
+
+SELECT * FROM worker
+WHERE first_name NOT IN ('Vipul', 'Satish');
+
+SELECT * FROM worker
+WHERE first_name LIKE '_____h' AND LENGTH(first_name) = 6;
+
+SELECT department, COUNT(*) AS employee_count
+FROM worker
+WHERE department = 'Admin';
+
+SELECT first_name, last_name
+FROM worker
+WHERE salary >= 50000 AND salary <= 100000;
+
+SELECT department, COUNT(*) AS worker_count
+FROM worker
+GROUP BY department
+ORDER BY worker_count DESC;
+
