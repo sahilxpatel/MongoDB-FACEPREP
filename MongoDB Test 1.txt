@@ -1,0 +1,31 @@
+MONGO DB Test 1
+
+Ans 1. db.sales.find({ item: "Mochas" })
+
+Ans 2. db.sales.find({ price: { $lt: 15 } })
+
+Ans 3. db.sales.find({ $or: [ { price: { $lt: 10 } }, { price: { $gt: 20 } } ] });
+
+Ans 4. db.sales.find({ quantity: { $exists: true } })
+
+Ans 5. db.products.find({ color: "white" })
+
+Ans 6. db.products.updateOne({ name: "xTablet" }, { $set: { "spec.ram": 24 } })
+
+Ans 7. db.products.find({}, { spec: 1, _id: 0 })
+
+Ans 8. db.products.find().sort({ price: -1 })
+
+Ans 9. db.products.find().skip(1).limit(2)
+
+Ans 10. db.products.find({ name: /^S/, price: { $gt: 700 } })
+
+Ans 11. db.sales.aggregate([ { $group: { _id: null, totalPrice: { $sum: "$price" } } } ])
+
+Ans 12. db.sales.find({},{_id: 0, size: 1})
+
+Ans 13. db.sales.aggregate([ { $match: { size: "Tall" } }, { $group: { _id: "$item", totalQuantity: { $sum: "$quantity" } } } ])
+
+Ans 14. db.sales.find().sort({ price: 1 }).skip(1).limit(1)
+
+Ans 15. db.sales.aggregate([ { $group: { _id: "$item", totalQuantity: { $sum: "$quantity" }, avgPrice: { $avg: "$price" }  } } ])
