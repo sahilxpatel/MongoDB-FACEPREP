@@ -1,25 +1,77 @@
+use practise;
+
+show tables;
+
+#1. Write an SQL query to print all Worker details from the Worker table order by FIRST_NAME Ascending.
 select * from worker
 order by first_name asc;
 
+#2. Write an SQL query to print all Worker details from the Worker table order by FIRST_NAME Ascending and DEPARTMENT Descending.
 SELECT * FROM worker
 ORDER BY first_name ASC, department DESC;
 
+#3.Write an SQL query to print details of workers excluding first names, “Vipul” and “Satish” from Worker table.
 SELECT * FROM worker
 WHERE first_name NOT IN ('Vipul', 'Satish');
 
+#4. Write an SQL query to print details of the Workers whose FIRST_NAME ends with ‘h’ and contains six alphabets.
 SELECT * FROM worker
 WHERE first_name LIKE '_____h' AND LENGTH(first_name) = 6;
 
+#5. Write an SQL query to fetch the count of employees working in the department ‘Admin’.
 SELECT department, COUNT(*) AS employee_count
 FROM worker
 WHERE department = 'Admin';
 
+#6.Write an SQL query to fetch worker names with salaries >= 50000 and <= 100000.
 SELECT first_name, last_name
 FROM worker
 WHERE salary >= 50000 AND salary <= 100000;
 
+#7.Write an SQL query to fetch the no. of workers for each department in the descending order.
 SELECT department, COUNT(*) AS worker_count
 FROM worker
 GROUP BY department
 ORDER BY worker_count DESC;
 
+#8.Write an SQL query to determine the 5th highest salary without using TOP or limit method.
+SELECT salary AS fifth_highest_salary
+FROM (
+    SELECT salary, DENSE_RANK() OVER (ORDER BY salary DESC) AS r
+    FROM worker
+) AS ranks
+WHERE r = 5;
+
+					OR
+
+SELECT salary AS fifth_highest_salary
+FROM (
+    SELECT salary, RANK() OVER (ORDER BY salary DESC) AS r
+    FROM worker
+) AS ranks
+WHERE r = 5;
+
+					OR
+
+SELECT salary AS fifth_highest_salary
+FROM (
+    SELECT salary, ROW_NUMBER() OVER (ORDER BY salary DESC) AS r
+    FROM worker
+) AS ranks
+WHERE r = 5;
+
+#9.Write an SQL query to fetch the list of employees with the same salary.
+SELECT first_name, last_name, salary
+FROM worker
+WHERE salary IN (
+    SELECT salary
+    FROM worker
+    GROUP BY salary
+    HAVING COUNT(*) > 1
+);
+
+#10. Write an SQL query to fetch the departments that have less than three people in it.
+SELECT department
+FROM worker
+GROUP BY department
+HAVING COUNT(*) < 3;
