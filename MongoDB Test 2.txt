@@ -1,0 +1,41 @@
+import com.mongodb.client.*;
+import org.bson.Document;
+import java.util.Scanner;
+
+public class AuthSystem {
+    private static final String DB_URI = "mongodb://root:A*********2@localhost:27017";
+    private static final String DB_NAME = "authDB";
+    private static final String COLLECTION_NAME = "users";
+
+    public static boolean authenticate(String username, String password) {
+        try (MongoClient mongoClient = MongoClients.create(DB_URI)) {
+            MongoDatabase database = mongoClient.getDatabase(DB_NAME);
+            MongoCollection<Document> collection = database.getCollection(COLLECTION_NAME);
+            
+            Document user = collection.find(new Document("username", username).append("password", password)).first();
+            return user != null;
+        } catch (Exception e) {
+            System.out.println("Error connecting to database: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        System.out.print("Enter username: ");
+        String username = scanner.nextLine();
+        
+        System.out.print("Enter password: ");
+        String password = scanner.nextLine();
+        
+        if (authenticate(username, password)) {
+            System.out.println("Authentication successful. You can now perform tasks.");
+            // Perform user tasks here
+        } else {
+            System.out.println("Authentication failed. Invalid credentials.");
+        }
+        
+        scanner.close();
+    }
+}
