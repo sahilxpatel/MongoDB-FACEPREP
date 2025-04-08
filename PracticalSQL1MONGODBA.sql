@@ -1,0 +1,13 @@
+create database practical;
+use practical;
+create table Mech(s_id int,s_name varchar(25));
+start transaction;
+insert into Mech values(101,'Vinayak');
+savepoint A;
+update mech set s_id=102 where s_id=101;
+savepoint B;
+insert into Mech values(101,'Pandey');
+Savepoint C;
+select * from mech;
+rollback to B;
+commit;
